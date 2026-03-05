@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unidad II: Programación Aplicada con Python</title>
+    <!-- Tailwind CSS para los estilos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React y Babel para ejecutar JSX en el navegador -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #05050a; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        
+        // Iconos de Lucide adaptados para React global
+        const Icon = ({ name, className }) => {
+            useEffect(() => {
+                if (window.lucide) {
+                    window.lucide.createIcons();
+                }
+            }, [name]);
+            return <i data-lucide={name} className={className}></i>;
+        };
+
+        const App = () => {
+            const [activeSection, setActiveSection] = useState(0);
+
+            const sections = [
+                {
+                    id: "2.1",
+                    title: "Conceptos Básicos",
+                    icon: "terminal",
+                    color: "blue",
+                    details: "Fundamentos del lenguaje y configuración del entorno profesional.",
+                    topics: [
+                        { name: "2.1.1 Programación Estructurada", desc: "Paradigma que utiliza funciones y estructuras de control (secuencia, selección, iteración) para crear programas legibles y libres del caos del 'GOTO'.", code: "# Ejemplo de estructura secuencial\nx = 5\ny = 10\nprint(x + y)" },
+                        { name: "2.1.2 Instalación y Entorno", desc: "Uso de instaladores oficiales de python.org y configuración de IDEs como VS Code o PyCharm con extensiones de linter y depuración.", code: "# Verificación de versión en terminal\n# python --version" },
+                        { name: "2.1.3 Librerías y Paquetes", desc: "Ecosistema gestionado por PIP. Un paquete es una colección de módulos. Las librerías extienden las capacidades nativas del lenguaje.", code: "import os\nprint(os.getcwd()) # Módulo nativo para SO" }
+                    ]
+                },
+                {
+                    id: "2.2",
+                    title: "Definiciones",
+                    icon: "database",
+                    color: "indigo",
+                    details: "Manejo de memoria y clasificación de la información.",
+                    topics: [
+                        { name: "2.2.1 Constantes y Variables", desc: "Variables: nombres que referencian objetos en memoria. Constantes: convenciones en MAYÚSCULAS para valores que no deben cambiar.", code: "LIMITE_MAX = 100 # Constante\nusuario_id = 1024 # Variable" },
+                        { name: "2.2.2 Tipos de Datos", desc: "Python maneja tipos primitivos (int, float, str, bool) y estructurados (list, tuple, dict, set) de forma dinámica.", code: "entero = 10\nflotante = 10.5\ncadena = 'Hola'\nbooleano = True" }
+                    ]
+                },
+                {
+                    id: "2.3",
+                    title: "Sentencias de Decisión",
+                    icon: "shuffle",
+                    color: "emerald",
+                    details: "Lógica de bifurcación para el control del flujo del programa.",
+                    topics: [
+                        { name: "2.3.1 Decisión (if/else)", desc: "Evalúa una expresión booleana para decidir qué bloque de código ejecutar.", code: "if nota >= 70:\n    print('Aprobado')\nelse:\n    print('Reprobado')" },
+                        { name: "2.3.2 Selección (match-case)", desc: "Introducido en Python 3.10 para realizar comparaciones estructurales complejas de forma más limpia que múltiples if-elif.", code: "match estado:\n    case 200: print('OK')\n    case 404: print('No encontrado')" }
+                    ]
+                },
+                {
+                    id: "2.4",
+                    title: "Sentencias de Repetición",
+                    icon: "repeat",
+                    color: "purple",
+                    details: "Automatización de tareas mediante bucles controlados.",
+                    topics: [
+                        { name: "2.4.1 Sentencias Iterativas (for)", desc: "Diseñadas para recorrer elementos de un objeto iterable (como una lista o un rango).", code: "for i in range(5):\n    print(f'Contador: {i}')" },
+                        { name: "2.4.2 Sentencias Repetitivas (while)", desc: "Ejecuta un bloque de código mientras una condición lógica sea verdadera. Útil cuando no se conoce el número de iteraciones.", code: "while energia > 0:\n    trabajar()\n    energia -= 10" }
+                    ]
+                },
+                {
+                    id: "2.5-2.6",
+                    title: "Funciones y Aplicaciones",
+                    icon: "function-square",
+                    color: "orange",
+                    details: "Modularización y optimización de la lógica del software.",
+                    topics: [
+                        { name: "2.5.1-2.5.2 Creación y Retorno", desc: "Definición de bloques lógicos con parámetros de entrada y retorno de resultados mediante la palabra 'return'.", code: "def sumar(a, b):\n    return a + b\n\nres = sumar(5, 3)" },
+                        { name: "2.5.3 Funciones Anónimas", desc: "Funciones lambda: expresiones de una sola línea sin nombre para tareas rápidas.", code: "doble = lambda x: x * 2\nprint(doble(10))" },
+                        { name: "2.6 Otras Aplicaciones", desc: "Incluye el manejo de excepciones (try/except) y el trabajo con archivos para persistencia de datos.", code: "try:\n    f = open('data.txt')\nexcept FileNotFoundError:\n    print('Error')" }
+                    ]
+                },
+                {
+                    id: "2.7",
+                    title: "Arreglos",
+                    icon: "grid-3x3",
+                    color: "rose",
+                    details: "Estructuras de datos lineales para procesamiento eficiente.",
+                    topics: [
+                        { name: "2.7.1 Definición y Uso", desc: "Uso de listas nativas o arreglos de NumPy para almacenar secuencias de datos homogéneos o heterogéneos.", code: "lista = [1, 2, 3]\nimport numpy as np\narr = np.array([4, 5, 6])" },
+                        { name: "2.7.2 Aplicaciones Prácticas", desc: "Procesamiento de grandes volúmenes de datos, cálculos estadísticos, matrices y manipulación de señales.", code: "media = np.mean(arr)\nprint(f'Media: {media}')" }
+                    ]
+                }
+            ];
+
+            const bibliography = [
+                { author: "Python Software Foundation", year: "2024", title: "The Python Tutorial v3.12", url: "https://docs.python.org/3/tutorial/" },
+                { author: "Van Rossum, G., & Drake, F. L.", year: "2023", title: "Python Language Reference", url: "https://docs.python.org/3/reference/" },
+                { author: "Matthes, E.", year: "2023", title: "Python Crash Course: A Hands-On, Project-Based Introduction to Programming", publisher: "No Starch Press" },
+                { author: "Sweigart, A.", year: "2019", title: "Automate the Boring Stuff with Python: Practical Programming for Total Beginners", publisher: "No Starch Press" },
+                { author: "Harris, C. R., et al.", year: "2020", title: "Array programming with NumPy", journal: "Nature, 585(7825), 357-362" }
+            ];
+
+            const colors = {
+                blue: "from-blue-500/20 text-blue-400 border-blue-500/50 bg-blue-500",
+                indigo: "from-indigo-500/20 text-indigo-400 border-indigo-500/50 bg-indigo-500",
+                emerald: "from-emerald-500/20 text-emerald-400 border-emerald-500/50 bg-emerald-500",
+                purple: "from-purple-500/20 text-purple-400 border-purple-500/50 bg-purple-500",
+                orange: "from-orange-500/20 text-orange-400 border-orange-500/50 bg-orange-500",
+                rose: "from-rose-500/20 text-rose-400 border-rose-500/50 bg-rose-500"
+            };
+
+            return (
+                <div className="min-h-screen text-slate-300 p-4 md:p-8 overflow-x-hidden">
+                    <div className="relative z-10 max-w-7xl mx-auto">
+                        <header className="mb-10 border-b border-slate-800 pb-8 flex flex-col md:flex-row justify-between items-start md:items-end">
+                            <div>
+                                <div className="flex items-center space-x-2 text-blue-400 mb-2">
+                                    <Icon name="cpu" className="w-5 h-5" />
+                                    <span className="text-xs font-bold tracking-widest uppercase">Investigación Académica Completa</span>
+                                </div>
+                                <h1 className="text-5xl md:text-6xl font-black text-white">UNIDAD <span className="text-blue-500">II</span></h1>
+                                <p className="text-xl text-slate-400 mt-2 font-light tracking-wide uppercase">Programación Aplicada con Python</p>
+                            </div>
+                        </header>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                            <nav className="lg:col-span-4 space-y-3">
+                                {sections.map((s, idx) => (
+                                    <button
+                                        key={idx}
+                                        onClick={() => setActiveSection(idx)}
+                                        className={`w-full flex items-center p-4 rounded-2xl transition-all duration-300 border-2 ${
+                                            activeSection === idx 
+                                            ? `bg-slate-900 border-blue-500/50 shadow-lg` 
+                                            : "bg-transparent border-slate-900 hover:border-slate-800"
+                                        }`}
+                                    >
+                                        <div className={`p-3 rounded-xl ${activeSection === idx ? `bg-blue-500 text-white` : "bg-slate-900 text-slate-500"}`}>
+                                            <Icon name={s.icon} className="w-6 h-6" />
+                                        </div>
+                                        <div className="ml-4 text-left">
+                                            <span className="block text-[10px] font-bold text-slate-500 tracking-widest">{s.id}</span>
+                                            <span className={`font-bold ${activeSection === idx ? "text-white" : "text-slate-400"}`}>{s.title}</span>
+                                        </div>
+                                    </button>
+                                ))}
+
+                                <div className="mt-8 p-6 bg-slate-900/30 rounded-3xl border border-slate-800">
+                                    <h3 className="flex items-center text-white font-bold mb-4 text-sm">
+                                        <Icon name="book-open" className="w-4 h-4 mr-2 text-emerald-400" /> Referencias (APA)
+                                    </h3>
+                                    <div className="space-y-4 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
+                                        {bibliography.map((b, i) => (
+                                            <p key={i} className="text-[10px] leading-relaxed text-slate-500">
+                                                {b.author} ({b.year}). <span className="italic text-slate-400">{b.title}</span>. {b.publisher || b.journal || b.url}
+                                            </p>
+                                        ))}
+                                    </div>
+                                </div>
+                            </nav>
+
+                            <main className="lg:col-span-8 space-y-6">
+                                <div className="bg-slate-900/50 border border-slate-800 rounded-[2rem] overflow-hidden backdrop-blur-sm">
+                                    <div className="p-8 md:p-10">
+                                        <div className="mb-8">
+                                            <h2 className="text-3xl font-black text-white">{sections[activeSection].title}</h2>
+                                            <p className="text-slate-400 mt-2 italic text-sm">{sections[activeSection].details}</p>
+                                        </div>
+                                        <div className="space-y-8">
+                                            {sections[activeSection].topics.map((t, i) => (
+                                                <div key={i} className="bg-black/30 border border-slate-800 rounded-2xl p-6">
+                                                    <h4 className="text-lg font-bold text-white mb-2">{t.name}</h4>
+                                                    <p className="text-sm text-slate-400 mb-6">{t.desc}</p>
+                                                    <div className="rounded-xl overflow-hidden border border-slate-800 bg-[#020617]">
+                                                        <pre className="p-4 text-xs font-mono text-blue-300 overflow-x-auto">
+                                                            <code>{t.code}</code>
+                                                        </pre>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </main>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
