@@ -39,6 +39,12 @@
         const App = () => {
             const [activeSection, setActiveSection] = useState(0);
 
+            const teamMembers = [
+                { name: "MELANY GONZALEZ HERNANDEZ", id: "394763", major: "PROCESOS INDUSTRIALES" },
+                { name: "RENATA GONZÁLEZ HERNÁNDEZ", id: "394422", major: "COMPUTACIÓN" },
+                { name: "DANNA CAMILA LOERA GARCÍA", id: "394789", major: "PROCESOS INDUSTRIALES" }
+            ];
+
             const sections = [
                 {
                     id: "2.1",
@@ -118,17 +124,8 @@
                 { author: "Harris, C. R., et al.", year: "2020", title: "Array programming with NumPy", journal: "Nature, 585(7825), 357-362" }
             ];
 
-            const colors = {
-                blue: "from-blue-500/20 text-blue-400 border-blue-500/50 bg-blue-500",
-                indigo: "from-indigo-500/20 text-indigo-400 border-indigo-500/50 bg-indigo-500",
-                emerald: "from-emerald-500/20 text-emerald-400 border-emerald-500/50 bg-emerald-500",
-                purple: "from-purple-500/20 text-purple-400 border-purple-500/50 bg-purple-500",
-                orange: "from-orange-500/20 text-orange-400 border-orange-500/50 bg-orange-500",
-                rose: "from-rose-500/20 text-rose-400 border-rose-500/50 bg-rose-500"
-            };
-
             return (
-                <div className="min-h-screen text-slate-300 p-4 md:p-8 overflow-x-hidden">
+                <div className="min-h-screen text-slate-300 p-4 md:p-8 overflow-x-hidden bg-[#05050a]">
                     <div className="relative z-10 max-w-7xl mx-auto">
                         <header className="mb-10 border-b border-slate-800 pb-8 flex flex-col md:flex-row justify-between items-start md:items-end">
                             <div>
@@ -142,28 +139,50 @@
                         </header>
 
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                            <nav className="lg:col-span-4 space-y-3">
-                                {sections.map((s, idx) => (
-                                    <button
-                                        key={idx}
-                                        onClick={() => setActiveSection(idx)}
-                                        className={`w-full flex items-center p-4 rounded-2xl transition-all duration-300 border-2 ${
-                                            activeSection === idx 
-                                            ? `bg-slate-900 border-blue-500/50 shadow-lg` 
-                                            : "bg-transparent border-slate-900 hover:border-slate-800"
-                                        }`}
-                                    >
-                                        <div className={`p-3 rounded-xl ${activeSection === idx ? `bg-blue-500 text-white` : "bg-slate-900 text-slate-500"}`}>
-                                            <Icon name={s.icon} className="w-6 h-6" />
-                                        </div>
-                                        <div className="ml-4 text-left">
-                                            <span className="block text-[10px] font-bold text-slate-500 tracking-widest">{s.id}</span>
-                                            <span className={`font-bold ${activeSection === idx ? "text-white" : "text-slate-400"}`}>{s.title}</span>
-                                        </div>
-                                    </button>
-                                ))}
+                            <nav className="lg:col-span-4 space-y-6">
+                                {/* Navegación de Secciones */}
+                                <div className="space-y-3">
+                                    {sections.map((s, idx) => (
+                                        <button
+                                            key={idx}
+                                            onClick={() => setActiveSection(idx)}
+                                            className={`w-full flex items-center p-4 rounded-2xl transition-all duration-300 border-2 ${
+                                                activeSection === idx 
+                                                ? `bg-slate-900 border-blue-500/50 shadow-lg` 
+                                                : "bg-transparent border-slate-900 hover:border-slate-800"
+                                            }`}
+                                        >
+                                            <div className={`p-3 rounded-xl ${activeSection === idx ? `bg-blue-500 text-white` : "bg-slate-900 text-slate-500"}`}>
+                                                <Icon name={s.icon} className="w-6 h-6" />
+                                            </div>
+                                            <div className="ml-4 text-left">
+                                                <span className="block text-[10px] font-bold text-slate-500 tracking-widest">{s.id}</span>
+                                                <span className={`font-bold ${activeSection === idx ? "text-white" : "text-slate-400"}`}>{s.title}</span>
+                                            </div>
+                                        </button>
+                                    ))}
+                                </div>
 
-                                <div className="mt-8 p-6 bg-slate-900/30 rounded-3xl border border-slate-800">
+                                {/* Apartado de Integrantes */}
+                                <div className="p-6 bg-blue-500/5 rounded-3xl border border-blue-500/20 shadow-xl">
+                                    <h3 className="flex items-center text-white font-bold mb-4 text-sm">
+                                        <Icon name="users" className="w-4 h-4 mr-2 text-blue-400" /> Integrantes del Equipo
+                                    </h3>
+                                    <div className="space-y-4">
+                                        {teamMembers.map((member, i) => (
+                                            <div key={i} className="border-l-2 border-blue-500/30 pl-3">
+                                                <p className="text-[11px] font-black text-white tracking-wide">{member.name}</p>
+                                                <div className="flex justify-between items-center mt-1">
+                                                    <span className="text-[10px] text-blue-400 font-mono">{member.id}</span>
+                                                    <span className="text-[9px] text-slate-500 uppercase">{member.major}</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Referencias Bibliográficas */}
+                                <div className="p-6 bg-slate-900/30 rounded-3xl border border-slate-800">
                                     <h3 className="flex items-center text-white font-bold mb-4 text-sm">
                                         <Icon name="book-open" className="w-4 h-4 mr-2 text-emerald-400" /> Referencias (APA)
                                     </h3>
